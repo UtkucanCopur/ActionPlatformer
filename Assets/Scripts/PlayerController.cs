@@ -1,8 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerStateMachine StateMachine {  get; private set; }
+    public StateMachine StateMachine {  get; private set; }
     public PlayerStats Stats;
 
 
@@ -23,6 +24,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("Attack Settings")]
+    [SerializeField] private Transform attackPoint;
+
+
+
 
     private void Awake()
     {
@@ -33,7 +39,7 @@ public class PlayerController : MonoBehaviour
         MoveState = new MoveState(this);
         JumpState = new JumpState(this);
 
-        StateMachine = new PlayerStateMachine();
+        StateMachine = new StateMachine();
 
     }
 
