@@ -12,7 +12,7 @@ public class PatrolState : IState
 
     public void Enter()
     {
-
+        _enemy.SetMoveAnimation(true);
     }
 
     public void Update()
@@ -22,11 +22,16 @@ public class PatrolState : IState
         _enemy.transform.position = Vector2.MoveTowards(_enemy.transform.position,
             target.position, _enemy.Stats.MoveSpeed * Time.deltaTime);
 
-        if (Vector2.Distance(_enemy.transform.position, target.position) < 0.1f)
+        if (Vector2.Distance(_enemy.transform.position, target.position) < 1f)
         {
             _waypointIndex = (_waypointIndex + 1) % _enemy.Waypoints.Length;
         }
+
+        float direction = target.position.x - _enemy.transform.position.x;
+        _enemy.HandleFlip(direction);
     }
+
+    
 
     public void Exit() { }
 

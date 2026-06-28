@@ -9,7 +9,10 @@ public class MoveState : IState
 
 
 
-    public void Enter() { }
+    public void Enter()
+    {
+        _player.SetMoveAnimation(true);
+    }
 
     public void Update()
     {

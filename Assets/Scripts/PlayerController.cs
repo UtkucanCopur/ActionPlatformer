@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public float MoveSpeed = 5f;
     public Vector2 MoveInput { get; private set; }
     public Rigidbody2D Rb { get; private set; }
+    private bool _isFacingRight = true;
 
 
     [Header("Collision Checks")]
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField] private Transform attackPoint;
 
+    [Header("Animation Settings")]
+    [SerializeField] private Animator animator;
 
 
 
@@ -59,9 +62,22 @@ public class PlayerController : MonoBehaviour
         {
             StateMachine.ChangeState(JumpState);
         }
-
+        Flip();
 
         StateMachine.CurrentState.Update();
+    }
+
+    public void SetMoveAnimation(bool isMoving) => animator.SetBool("isMoving", isMoving);
+
+    private void Flip()
+    {
+        if (_isFacingRight && MoveInput.x < 0 || !_isFacingRight && MoveInput.x > 0)
+        {
+            _isFacingRight = !_isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
     }
 
 
