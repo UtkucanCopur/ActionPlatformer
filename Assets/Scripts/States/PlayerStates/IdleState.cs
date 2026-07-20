@@ -9,7 +9,7 @@ public class IdleState : IState
 
     public void Enter()
     {
-
+        _player.TriggerIdleAnimation();
     }
 
     public void Update()

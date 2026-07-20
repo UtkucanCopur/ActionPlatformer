@@ -11,6 +11,7 @@ public class JumpState : IState
     public void Enter()
     {
         _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, _player.Stats.JumpForce);
+        _player.SetJumpAnimation(true);
     }
 
     public void Update()
@@ -23,6 +24,9 @@ public class JumpState : IState
         }
     }
 
-    public void Exit() { }
+    public void Exit() 
+    {
+        _player.SetJumpAnimation(false);
+    }
 
 }

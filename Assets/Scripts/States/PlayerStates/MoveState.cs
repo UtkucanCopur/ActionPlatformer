@@ -24,7 +24,11 @@ public class MoveState : IState
             _player.StateMachine.ChangeState(_player.IdleState);
     }
 
-    public void Exit() { _player.Rb.linearVelocity = Vector2.zero; }
+    public void Exit() 
+    { 
+        _player.Rb.linearVelocity = Vector2.zero;
+        _player.SetMoveAnimation(false);
+    }
 
 
 }

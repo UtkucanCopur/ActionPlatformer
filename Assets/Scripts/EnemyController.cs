@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IDamageable
 {
     [SerializeField] private Animator animator;
 
@@ -55,6 +55,11 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float damageAmount)
+    {
+        Debug.Log("hasar");
+    }
+
     public void HandleFlip(float directionX)
     {
         // directionX > 0 ise sağa (1), < 0 ise sola (-1) bakmalı
@@ -67,6 +72,5 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-
-
+    
 }

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
     public JumpState JumpState { get; private set; }
+    public AttackState AttackState { get; private set; }
 
 
     [Header("Movement Settings")]
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
         IdleState = new IdleState(this);
         MoveState = new MoveState(this);
         JumpState = new JumpState(this);
+        AttackState = new AttackState(this);
 
         StateMachine = new StateMachine();
 
@@ -62,12 +64,76 @@ public class PlayerController : MonoBehaviour
         {
             StateMachine.ChangeState(JumpState);
         }
+        if (InputActions.Player.Attack.triggered)
+        {
+            StateMachine.ChangeState(AttackState);
+        }
         Flip();
 
         StateMachine.CurrentState.Update();
     }
 
+    private void FixedUpdate()
+    {
+        if (!IsGrounded()) 
+        {
+            if (Rb.linearVelocity.y > 0.1f)
+            {
+                animator.SetBool("isJumping", true);
+                animator.SetBool("isFalling", false);
+            }
+            else if (Rb.linearVelocity.y < -0.1f)
+            {
+                animator.SetBool("isJumping", false);
+                animator.SetBool("isFalling", true);
+            }
+        }
+        else
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", false);
+        }
+    }
+
+
+
     public void SetMoveAnimation(bool isMoving) => animator.SetBool("isMoving", isMoving);
+    public void SetJumpAnimation(bool isJumping) => animator.SetBool("isJumping", isJumping);
+    public void TriggerAttackAnimation() => animator.SetTrigger("Attack");
+    public void TriggerIdleAnimation() => animator.SetTrigger("Idle");
+
+    public void SetVelocityZero()
+    {
+        Rb.linearVelocity = Vector3.zero;
+    }
+
+
+    public void PerformAttack()
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint.position, 3f);
+        Debug.Log("Çember içine giren toplam obje sayısı: " + hitColliders.Length);
+        foreach (var hitCollider in hitColliders)
+        {
+            Debug.Log("içerde");
+            if (hitCollider.gameObject.TryGetComponent<IDamageable>(out var damageable))
+            {
+                Debug.Log("çakışan obje:" + hitCollider.name);
+                damageable.TakeDamage(5f);
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, 3f);
+    }
+
+
+    public void OnAttackFinished()
+    {
+        StateMachine.ChangeState(new IdleState(this));
+    }
 
     private void Flip()
     {
