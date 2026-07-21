@@ -23,6 +23,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     private float _health;
     public EnemyStats Stats;
 
+    [Header("UI")]
+    public Transform healthBar;
+    private float originalBarScaleX;
+
     private void Awake()
     {
         StateMachine = new StateMachine();
@@ -40,6 +44,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void SetMoveAnimation(bool isMoving) => animator.SetBool("isMoving", isMoving);
     public void TriggerAttackAnimation() => animator.SetTrigger("Attack");
+    public void TriggerDeathAnimation() => animator.SetTrigger("Death");
     public void OnAttackFinished() => StateMachine.ChangeState(new ChaseState(this));
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -76,6 +81,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void SetStartingStats()
     {
         _health = Stats.MaxHealth;
+        if (healthBar != null)
+        {
+            originalBarScaleX = healthBar.localScale.x;
+        }
     }
     
 
@@ -84,7 +93,29 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void TakeDamage(float damageAmount)
     {
         _health -= damageAmount;
+        _health = Mathf.Clamp(_health, 0, Stats.MaxHealth);
+        UpdateHealthBar();
+        
+
+        if (_health <= 0) StateMachine.ChangeState(new EnemyDeathState(this));
         Debug.Log(_health);
+    }
+
+    private void UpdateHealthBar()
+    {
+        if (healthBar != null)
+        {
+            float healthPercent = _health / Stats.MaxHealth;
+
+            Vector3 newScale = healthBar.localScale;
+            newScale.x = originalBarScaleX * healthPercent;
+            healthBar.localScale = newScale;
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(this.gameObject);
     }
 
     public void HandleFlip(float directionX)
