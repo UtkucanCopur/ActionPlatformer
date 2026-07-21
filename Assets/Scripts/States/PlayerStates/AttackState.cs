@@ -9,9 +9,9 @@ public class AttackState : IState
 
     public void Enter()
     {
-        _player.SetVelocityZero();
         _player.TriggerAttackAnimation();
         _player.PerformAttack();
+        _player.SetVelocityZero();
     }
 
     public void Update() 

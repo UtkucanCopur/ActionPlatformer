@@ -680,10 +680,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   animator: {fileID: 1018540386}
+  Rb: {fileID: 1018540381}
   PlayerTransform: {fileID: 1023383524}
   Waypoints:
   - {fileID: 1423935194}
   - {fileID: 881308453}
+  attackRange: 3.5
+  attackCooldown: 1.5
+  lastAttackTime: 0
   Stats: {fileID: 11400000, guid: e994527b713b0dc45ab1937f6f09dd77, type: 2}
 --- !u!212 &1018540384
 SpriteRenderer:
@@ -840,7 +844,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c81293955875a314086335a489decd9f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -937,7 +941,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c81293955875a314086335a489decd9f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

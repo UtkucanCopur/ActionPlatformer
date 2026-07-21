@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 
@@ -16,13 +17,14 @@ public class MoveState : IState
 
     public void Update()
     {
-     
         float speed = _player.Stats.MoveSpeed;
-        _player.Rb.linearVelocity = new Vector2(_player.MoveInput.x * speed,_player.Rb.linearVelocity.y);
+        _player.Rb.linearVelocity = new Vector2(_player.MoveInput.x * speed, _player.Rb.linearVelocity.y);
 
         if (_player.MoveInput == Vector2.zero)
             _player.StateMachine.ChangeState(_player.IdleState);
     }
+
+    
 
     public void Exit() 
     { 

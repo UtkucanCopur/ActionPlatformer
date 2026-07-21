@@ -1,32 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
-    [SerializeField] private Health playerHealth;
-
-    private void OnEnable()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
-        playerHealth.OnHealthChanged += UpdateHealthBar;
+        
     }
 
-    private void OnDisable()
+    // Update is called once per frame
+    void Update()
     {
-        playerHealth.OnHealthChanged -= UpdateHealthBar;
-    }
-
-    private void Awake()
-    {
-        if (playerHealth == null)
-        {
-            Debug.Log("playerHealth = null");
-            return;
-        }
-    }
-
-    private void UpdateHealthBar(float amount)
-    {
-        slider.value = amount;
+        
     }
 }

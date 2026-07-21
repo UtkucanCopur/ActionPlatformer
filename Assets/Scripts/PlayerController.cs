@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        MoveInput = InputActions.Player.Move.ReadValue<Vector2>();
+        
 
         if (InputActions.Player.Jump.triggered && IsGrounded())
         {
@@ -75,6 +76,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        MoveInput = InputActions.Player.Move.ReadValue<Vector2>();
+        
         if (!IsGrounded()) 
         {
             if (Rb.linearVelocity.y > 0.1f)
@@ -93,6 +96,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", false);
         }
+
     }
 
 
@@ -104,20 +108,19 @@ public class PlayerController : MonoBehaviour
 
     public void SetVelocityZero()
     {
-        Rb.linearVelocity = Vector3.zero;
+        Rb.linearVelocity = new Vector2 (0f, Rb.linearVelocity.y);
     }
+
+    
 
 
     public void PerformAttack()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint.position, 3f);
-        Debug.Log("Çember içine giren toplam obje sayısı: " + hitColliders.Length);
         foreach (var hitCollider in hitColliders)
         {
-            Debug.Log("içerde");
             if (hitCollider.gameObject.TryGetComponent<IDamageable>(out var damageable))
             {
-                Debug.Log("çakışan obje:" + hitCollider.name);
                 damageable.TakeDamage(5f);
             }
         }

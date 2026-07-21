@@ -17,8 +17,10 @@ public class ChaseState : IState
 
     public void Update()
     {
-        FollowPlayer();
-        FlipDirection();
+        if (_enemy.PlayerTransform != null)
+        {
+            CheckAttackRange();
+        }
     }
 
     public void Exit() { }
@@ -37,5 +39,26 @@ public class ChaseState : IState
             _enemy.PlayerTransform.position,
             _enemy.Stats.MoveSpeed * Time.deltaTime);
     }
+
+    private void CheckAttackRange()
+    {
+        float distance = Vector2.Distance(_enemy.transform.position, _enemy.PlayerTransform.position);
+
+        if (distance <= _enemy.attackRange)
+        {
+            _enemy.SetVelocityZero();
+            _enemy.SetMoveAnimation(false);
+
+            if (Time.time >= _enemy.lastAttackTime + _enemy.attackCooldown)
+                _enemy.StateMachine.ChangeState(new EnemyAttackState(_enemy));
+        } else
+        {
+            FollowPlayer();
+            FlipDirection();
+            _enemy.SetMoveAnimation(true);
+        }
+            
+    }
+
 
 }

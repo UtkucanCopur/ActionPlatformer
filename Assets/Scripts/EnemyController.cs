@@ -3,17 +3,31 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour, IDamageable
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private Rigidbody2D Rb;
 
 
     public Transform PlayerTransform;
     public StateMachine StateMachine {  get; private set; }
     public Transform[] Waypoints;
+    
+
+
+
+    [Header("Attack Settings")]
+    public float attackRange = 3f;
+    public float attackCooldown = 1.5f;
+    [HideInInspector] public float lastAttackTime;
+
+
+    [Header("Stats")]
+    private float _health;
     public EnemyStats Stats;
 
     private void Awake()
     {
         StateMachine = new StateMachine();
         StateMachine.Initialize(new PatrolState(this));
+        SetStartingStats();
     }
 
     private void Update()
@@ -26,12 +40,12 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void SetMoveAnimation(bool isMoving) => animator.SetBool("isMoving", isMoving);
     public void TriggerAttackAnimation() => animator.SetTrigger("Attack");
+    public void OnAttackFinished() => StateMachine.ChangeState(new ChaseState(this));
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Player is founded");
             StateMachine.ChangeState(new ChaseState(this));
         }
     }
@@ -40,7 +54,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Player is flew");
             StateMachine.ChangeState(new PatrolState(this));
         }
     }
@@ -55,9 +68,23 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
+    public void SetVelocityZero()
+    {
+        Rb.linearVelocity = Vector3.zero;
+    }
+
+    private void SetStartingStats()
+    {
+        _health = Stats.MaxHealth;
+    }
+    
+
+    
+
     public void TakeDamage(float damageAmount)
     {
-        Debug.Log("hasar");
+        _health -= damageAmount;
+        Debug.Log(_health);
     }
 
     public void HandleFlip(float directionX)
