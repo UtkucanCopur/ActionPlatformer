@@ -11,7 +11,7 @@ public class EnemyAttackState : IState
     {
         _enemy.SetVelocityZero();
         _enemy.TriggerAttackAnimation();
-
+        _enemy.PerformAttack();
         _enemy.lastAttackTime = Time.time;
     }
 

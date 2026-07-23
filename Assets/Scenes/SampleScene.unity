@@ -948,6 +948,7 @@ MonoBehaviour:
   - {fileID: 881308453}
   attackRange: 3.5
   attackCooldown: 1.5
+  attackPosition: {fileID: 1140007595}
   lastAttackTime: 0
   Stats: {fileID: 11400000, guid: e994527b713b0dc45ab1937f6f09dd77, type: 2}
   healthBar: {fileID: 653176208}
@@ -1026,6 +1027,7 @@ Transform:
   - {fileID: 2052576211}
   - {fileID: 114336369}
   - {fileID: 653176208}
+  - {fileID: 1140007595}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1018540386
@@ -1091,7 +1093,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   attackPoint: {fileID: 1082002426}
+  lastAttackTime: 0
   animator: {fileID: 1023383526}
+  _health: 100
+  comboStep: 0
+  canCombo: 0
+  attackRequested: 0
 --- !u!50 &1023383522
 Rigidbody2D:
   serializedVersion: 5
@@ -1284,6 +1291,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1023383524}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1140007594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1140007595}
+  m_Layer: 0
+  m_Name: AttackPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1140007595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140007594}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.549, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1018540385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1423935193
 GameObject:

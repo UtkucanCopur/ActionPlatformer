@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     [Header("Attack Settings")]
     public float attackRange = 3f;
     public float attackCooldown = 1.5f;
+    public Transform attackPosition;
     [HideInInspector] public float lastAttackTime;
 
 
@@ -87,7 +88,17 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
     
-
+    public void PerformAttack()
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPosition.position, attackRange);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.gameObject.TryGetComponent<IDamageable>(out var damageable) && !hitCollider.CompareTag("Enemy"))
+            {
+                damageable.TakeDamage(25f);
+            }
+        }
+    }
     
 
     public void TakeDamage(float damageAmount)
@@ -111,6 +122,12 @@ public class EnemyController : MonoBehaviour, IDamageable
             newScale.x = originalBarScaleX * healthPercent;
             healthBar.localScale = newScale;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(attackPosition.position, attackRange);
     }
 
     public void Die()

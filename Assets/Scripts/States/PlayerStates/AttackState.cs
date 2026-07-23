@@ -12,12 +12,20 @@ public class AttackState : IState
         _player.TriggerAttackAnimation();
         _player.PerformAttack();
         _player.SetVelocityZero();
+
+        _player.attackRequested = false;
+        
     }
 
     public void Update() 
     {
+        
+    }
+    
+    public void Exit()
+    {
+        _player.lastAttackTime = Time.time;
 
     }
-    public void Exit() { }
 
 }
