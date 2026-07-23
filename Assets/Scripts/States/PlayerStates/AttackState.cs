@@ -10,16 +10,12 @@ public class AttackState : IState
     public void Enter()
     {
         _player.TriggerAttackAnimation();
-        _player.PerformAttack();
-        _player.SetVelocityZero();
-
         _player.attackRequested = false;
-        
     }
 
     public void Update() 
     {
-        
+
     }
     
     public void Exit()
