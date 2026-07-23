@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             if (hitCollider.gameObject.TryGetComponent<IDamageable>(out var damageable) && !hitCollider.CompareTag("Player"))
             {
-                damageable.TakeDamage(5f);
+                damageable.TakeDamage(25f);
                 Debug.Log("vurdu");
             }
         }
